@@ -12,8 +12,13 @@ def cadastro(request):
         email = request.POST.get('email')
         senha = request.POST.get('senha')
         
-        Usuario.objects.create(email=email, senha=senha)
-    return redirect('/login/')
+        Usuario.objects.create(
+            email=email,
+            senha=senha,
+            perfil='estagiario'
+        )
+        
+        return redirect('/login/')
 
 
 def login(request):
@@ -36,7 +41,10 @@ def login(request):
         
          # Login correto
         #request.session['usuario_id'] = usuario.id
-        request.session['email'] = usuario.email
+        #request.session['email'] = usuario.email
+        request.session['usuario_email'] = usuario.email
+        request.session['usuario_perfil'] = usuario.perfil
+        
         return redirect('/home/')
 
 def logout(request):

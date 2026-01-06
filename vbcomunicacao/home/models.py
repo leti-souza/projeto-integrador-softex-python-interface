@@ -8,3 +8,14 @@ class Usuario(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class Noticia(models.Model):
+    titulo = models.CharField(max_length=200)
+    conteudo = models.TextField()
+    municipio = models.CharField(max_length=100)
+    pauta = models.CharField(max_length=100)
+    data_publicacao = models.DateField()
+
+    def __str__(self):
+        return self.titulo

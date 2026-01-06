@@ -4,8 +4,41 @@ from django.shortcuts import render, redirect
 from .models import Usuario 
 
 
+#def home(request):
+ #   return render(request, 'home/home.html')
+ 
 def home(request):
-    return render(request, 'home/home.html')
+    if not request.session.get('usuario_email'):
+        return redirect('/login/')
+
+    perfil = request.session.get('usuario_perfil')
+
+    return render(request, 'home/home.html', {
+        'perfil': perfil
+    })
+
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+
+def cadastrar_noticia(request):
+    # 1️⃣ verifica se está logado
+    if not request.session.get('usuario_email'):
+        return redirect('/login/')
+
+    # 2️⃣ verifica o perfil
+    perfil = request.session.get('usuario_perfil')
+
+    if perfil not in ['admin', 'reporter']:
+        return HttpResponse('Acesso negado')
+
+    # 3️⃣ acesso permitido
+    return render(request, 'home/cadastrar_noticia.html')
+
+def lista_noticias(request):
+    if not request.session.get('usuario_email'):
+        return redirect('/login/')
+    
+    return render(request, 'home/lista_noticias.html')
 
 
 def noticias(request):

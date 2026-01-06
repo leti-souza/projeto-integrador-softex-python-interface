@@ -1,8 +1,23 @@
 from django.db import models
 
 class Usuario(models.Model):
-    email = models.EmailField(unique=True) #unique=True → não permite emails repetidos
+    PERFIS = [
+        ('admin', 'Administrador'),
+        ('reporter', 'Repórter'),
+        ('estagiario', 'Estagiário'),
+    ]
+
+    email = models.EmailField(unique=True)
     senha = models.CharField(max_length=100)
+    perfil = models.CharField(
+        max_length=20,
+        choices=PERFIS,
+        default='estagiario'
+    )
 
     def __str__(self):
-        return self.email
+        return f"{self.email} ({self.perfil})"
+
+
+  #  def __str__(self):
+   #     return self.email
